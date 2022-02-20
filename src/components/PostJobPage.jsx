@@ -41,7 +41,7 @@ const PostJobPage = () => {
         <Text mb="2px" mt="1rem" mt="1rem">
           Location *
         </Text>
-        <Input w="100%" placeholder="+ Add tion" size="md" />
+        <Input w="100%" placeholder="+ Add Location" size="md" />
         <Text mb="2px" mt="1rem">
           Years of Experience *
         </Text>
