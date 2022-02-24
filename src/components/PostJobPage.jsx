@@ -4,6 +4,7 @@ import {
   Divider,
   Flex,
   FormControl,
+  FormLabel,
   Icon,
   IconButton,
   Input,
@@ -45,7 +46,7 @@ const PostJobPage = () => {
   useEffect(() => {
     setPostJob({ Tags: tags });
   }, [tags]);
-  const Cancel=()=>{
+  const Cancel = () => {
     setPostJob({
       Locations: [],
       JobDesc: "",
@@ -58,8 +59,8 @@ const PostJobPage = () => {
       Category: "",
       FunctionalArea: "",
     });
-  }
-  const isError=postJob.Title===''
+  };
+  const isError = postJob.Title === "";
   return (
     <Flex justifyContent={"center"}>
       <Flex direction={"column"} w={["90%", "90%", "90%", "60%"]}>
@@ -75,34 +76,37 @@ const PostJobPage = () => {
           Basic Details
         </Text>
         <Divider />
-        <Text mb="2px" mt="1rem" mt="1rem">
-          Job Title *
-        </Text>
-        <FormControl isInvalid={isError}>
-        <Input
-          w="100%"
-          id="Title"
-          name="Title"
-          onChange={onchange}
-          placeholder="Write a title that appropriately describe this job"
-          size="md"
-          value={postJob.Title}
-          isRequired
-        />
-        </FormControl >
-        <Text mb="2px" mt="1rem" mt="1rem">
-          Locations *
-        </Text>
-        <Flex alignItems={"center"}>
+        <FormControl isRequired>
+          <FormLabel htmlFor="Title" mb="2px" mt="1rem" mt="1rem">
+            Job Title
+          </FormLabel>
           <Input
             w="100%"
-            id={"Locations"}
-            name={"Locations"}
-            placeholder={"+ Add Locations"}
-            size="md"
-            value={postJob.Locations}
+            id="Title"
+            name="Title"
             onChange={onchange}
+            placeholder="Write a title that appropriately describe this job"
+            size="md"
+            value={postJob.Title}
           />
+        </FormControl>
+
+        <Flex alignItems={"center"}>
+          <FormControl isRequired>
+            <FormLabel htmlFor="Locations" mb="2px" mt="1rem" mt="1rem">
+              Job Location
+            </FormLabel>
+
+            <Input
+              w="100%"
+              id={"Locations"}
+              name={"Locations"}
+              placeholder={"+ Add Locations"}
+              size="md"
+              value={postJob.Locations}
+              onChange={onchange}
+            />
+          </FormControl>
           <Box
             cursor="pointer"
             onClick={() => {
@@ -122,21 +126,24 @@ const PostJobPage = () => {
           state2={postJob.YOEE}
           Location={Location}
         />
-        <Text mb="2px" mt="1rem">
-          Job Description *
-        </Text>
-        <Flex mb="1rem">
-          <Textarea
-            id="JobDesc"
-            name="JobDesc"
-            onChange={onchange}
-            placeholder="Describe the role and responsibilities, skills required for the job and help the candidates understand the role better"
-            w="100%"
-            position={"relative"}
-            h="8rem"
-            value={postJob.JobDesc}
-          />
 
+        <Flex mb="1rem">
+          <FormControl isRequired>
+            <FormLabel htmlFor="JobDesc" mb="2px" mt="1rem" mt="1rem">
+              Job Description
+            </FormLabel>
+
+            <Textarea
+              id="JobDesc"
+              name="JobDesc"
+              onChange={onchange}
+              placeholder="Describe the role and responsibilities, skills required for the job and help the candidates understand the role better"
+              w="100%"
+              position={"relative"}
+              h="8rem"
+              value={postJob.JobDesc}
+            />
+          </FormControl>
           <Box
             position={"absolute"}
             right={["10%", "10%", "10%", "21%"]}
@@ -153,32 +160,36 @@ const PostJobPage = () => {
         <Divider my="0.5rem" />
         <Flex w="100%" mt="0.5rem" justifyContent={"space-between"}>
           <Flex direction={"column"} w="49%">
-            <Text>Category *</Text>
-            <Select
-              placeholder="Select"
-              onChange={onchange}
-              value={postJob.Category}
-              id="Category"
-              name="Category"
-            >
-              {Category.map((item, i) => {
-                return <option value={item}> {item}</option>;
-              })}
-            </Select>
+            <FormControl isRequired>
+              <FormLabel htmlFor="Tags">Category</FormLabel>
+              <Select
+                placeholder="Select"
+                onChange={onchange}
+                value={postJob.Category}
+                id="Category"
+                name="Category"
+              >
+                {Category.map((item, i) => {
+                  return <option value={item}> {item}</option>;
+                })}
+              </Select>
+            </FormControl>
           </Flex>
           <Flex direction={"column"} w="49%">
-            <Text>Functional Area *</Text>
-            <Select
-              placeholder="Select"
-              onChange={onchange}
-              value={postJob.FunctionalArea}
-              id="FunctionalArea"
-              name="FunctionalArea"
-            >
-              {FunctionalArea.map((item, i) => {
-                return <option value={item}> {item}</option>;
-              })}
-            </Select>
+            <FormControl isRequired>
+              <FormLabel htmlFor="Tags">Functional Area</FormLabel>
+              <Select
+                placeholder="Select"
+                onChange={onchange}
+                value={postJob.FunctionalArea}
+                id="FunctionalArea"
+                name="FunctionalArea"
+              >
+                {FunctionalArea.map((item, i) => {
+                  return <option value={item}> {item}</option>;
+                })}
+              </Select>
+            </FormControl>
           </Flex>
         </Flex>
 
@@ -190,19 +201,22 @@ const PostJobPage = () => {
           Location={Graduation}
         />
 
-        <Text mb="2px" mt="1rem" mt="1rem">
-          Tags *
-        </Text>
         <Flex alignItems={"center"}>
-          <Input
-            w="100%"
-            id={"Tags"}
-            name={"Tags"}
-            placeholder={"+ Add Job tags"}
-            size="md"
-            value={postJob.Tags}
-            onChange={onchange}
-          />
+          <FormControl isRequired>
+            <FormLabel htmlFor="Tags" mb="2px" mt="1rem" mt="1rem">
+              Tags
+            </FormLabel>
+
+            <Input
+              w="100%"
+              id={"Tags"}
+              name={"Tags"}
+              placeholder={"+ Add Job tags"}
+              size="md"
+              value={postJob.Tags}
+              onChange={onchange}
+            />
+          </FormControl>
           <Box
             cursor="pointer"
             onClick={() => {
@@ -239,9 +253,8 @@ const PostJobPage = () => {
             _active={{}}
             _focus={{}}
             _hover={{}}
-            onClick={()=>{
+            onClick={() => {
               //call api and then run cancel()
-
             }}
           >
             Post Job and Add another job
@@ -274,7 +287,7 @@ const jobObj = [
   },
 ];
 const Location = {
-  heading: "Year of Experience *",
+  heading: "Year of Experience ",
   select1: "Minimum Experience",
   select2: "Maximum Experience",
   s1Id: "YOES",
@@ -283,7 +296,7 @@ const Location = {
   option2: ["5+", "6+", "7+"],
 };
 const Graduation = {
-  heading: "Graduating Year *",
+  heading: "Graduating Year ",
   select1: "Start year",
   select2: "End year",
   s1Id: "GYS",

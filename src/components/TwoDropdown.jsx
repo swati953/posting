@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Flex, Input, Text, Select } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Input,
+  Text,
+  Select,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
 const TwoDropdown = ({
   postJob,
   setPostJob,
@@ -14,10 +22,10 @@ const TwoDropdown = ({
   };
 
   return (
-    <>
-      <Text mb="2px" mt="1rem">
+    <FormControl isRequired>
+      <FormLabel htmlFor="Tags" mb="2px" mt="1rem" mt="1rem">
         {Location.heading}
-      </Text>
+      </FormLabel>
       <Flex justifyContent={"space-between"}>
         <Select
           placeholder={Location.select1}
@@ -46,7 +54,7 @@ const TwoDropdown = ({
           })}
         </Select>
       </Flex>
-    </>
+    </FormControl>
   );
 };
 
