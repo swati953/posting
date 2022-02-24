@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   Flex,
+  FormControl,
   Icon,
   IconButton,
   Input,
@@ -10,14 +11,58 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdRefreshCircle } from "react-icons/io";
+import { BiMessageSquareAdd } from "react-icons/bi";
+
+import TwoDropdown from "./TwoDropdown";
 const PostJobPage = () => {
-  const [value, setValue] = React.useState("");
-  const handleChange = (event) => setValue(event.target.value);
+  const [locations, setLocations] = useState(Array);
+  const [tags, setTags] = useState(Array);
+  const [postJob, setPostJob] = useState({
+    Title: "",
+    Locations: [],
+    Tags: [],
+    YOES: "",
+    YOEE: "",
+    GYS: "",
+    GYE: "",
+    JobDesc: "",
+    Category: "",
+    FunctionalArea: "",
+  });
+  const onchange = (e) => {
+    setPostJob({ ...postJob, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    console.log(postJob, "postJob");
+  };
+  // let location = ['g',];
+  useEffect(() => {
+    setPostJob({ Locations: locations });
+  }, [locations]);
+  useEffect(() => {
+    setPostJob({ Tags: tags });
+  }, [tags]);
+  const Cancel=()=>{
+    setPostJob({
+      Locations: [],
+      JobDesc: "",
+      Title: "",
+      Tags: [],
+      GYS: "",
+      GYE: "",
+      YOEE: "",
+      YOES: "",
+      Category: "",
+      FunctionalArea: "",
+    });
+  }
+  const isError=postJob.Title===''
   return (
     <Flex justifyContent={"center"}>
-      <Flex direction={"column"} w={["90%","90%","90%",'60%']}>
+      <Flex direction={"column"} w={["90%", "90%", "90%", "60%"]}>
         <Text fontSize={"1rem"} fontWeight="700" my="1rem">
           Post Job
         </Text>
@@ -33,42 +78,70 @@ const PostJobPage = () => {
         <Text mb="2px" mt="1rem" mt="1rem">
           Job Title *
         </Text>
+        <FormControl isInvalid={isError}>
         <Input
           w="100%"
+          id="Title"
+          name="Title"
+          onChange={onchange}
           placeholder="Write a title that appropriately describe this job"
           size="md"
+          value={postJob.Title}
+          isRequired
         />
+        </FormControl >
         <Text mb="2px" mt="1rem" mt="1rem">
-          Location *
+          Locations *
         </Text>
-        <Input w="100%" placeholder="+ Add Location" size="md" />
-        <Text mb="2px" mt="1rem">
-          Years of Experience *
-        </Text>
-        <Flex justifyContent={"space-between"} >
-          <Select placeholder="Select Min" w={["49%"]}>
-            <option value="option1"> 1+</option>
-            <option value="option2"> 3+</option>
-            <option value="option3">5+</option>
-          </Select>
-          <Select placeholder="Select Max"  w={["49%"]}>
-            <option value="option1"> 7+</option>
-            <option value="option2"> 10+</option>
-            <option value="option3">15+</option>
-          </Select>
+        <Flex alignItems={"center"}>
+          <Input
+            w="100%"
+            id={"Locations"}
+            name={"Locations"}
+            placeholder={"+ Add Locations"}
+            size="md"
+            value={postJob.Locations}
+            onChange={onchange}
+          />
+          <Box
+            cursor="pointer"
+            onClick={() => {
+              let loc = postJob.Locations;
+              setLocations((prev) => {
+                return [...prev, loc];
+              });
+            }}
+          >
+            <BiMessageSquareAdd size="1.5rem" color="#5AB5A7" />
+          </Box>
         </Flex>
+        <TwoDropdown
+          postJob={postJob}
+          setPostJob={setPostJob}
+          state1={postJob.YOES}
+          state2={postJob.YOEE}
+          Location={Location}
+        />
         <Text mb="2px" mt="1rem">
           Job Description *
         </Text>
         <Flex mb="1rem">
           <Textarea
+            id="JobDesc"
+            name="JobDesc"
+            onChange={onchange}
             placeholder="Describe the role and responsibilities, skills required for the job and help the candidates understand the role better"
             w="100%"
             position={"relative"}
             h="8rem"
+            value={postJob.JobDesc}
           />
 
-          <Box position={"absolute"} right={["10%","10%","10%",'21%']} top={["56%","56%","56%",'54.5%']}>
+          <Box
+            position={"absolute"}
+            right={["10%", "10%", "10%", "21%"]}
+            top={["56%", "56%", "56%", "54.5%"]}
+          >
             <IoMdRefreshCircle size={"1.5rem"} color="#5AB5A7" />
           </Box>
         </Flex>
@@ -81,47 +154,81 @@ const PostJobPage = () => {
         <Flex w="100%" mt="0.5rem" justifyContent={"space-between"}>
           <Flex direction={"column"} w="49%">
             <Text>Category *</Text>
-            <Select placeholder="Select">
-              <option value="option1"> Software Developer</option>
-              <option value="option2"> UI </option>
-              <option value="option3">UX</option>
+            <Select
+              placeholder="Select"
+              onChange={onchange}
+              value={postJob.Category}
+              id="Category"
+              name="Category"
+            >
+              {Category.map((item, i) => {
+                return <option value={item}> {item}</option>;
+              })}
             </Select>
           </Flex>
           <Flex direction={"column"} w="49%">
             <Text>Functional Area *</Text>
-            <Select placeholder="Select">
-              <option value="option1">Frontend</option>
-              <option value="option2"> Backend</option>
-              <option value="option3">Design</option>
+            <Select
+              placeholder="Select"
+              onChange={onchange}
+              value={postJob.FunctionalArea}
+              id="FunctionalArea"
+              name="FunctionalArea"
+            >
+              {FunctionalArea.map((item, i) => {
+                return <option value={item}> {item}</option>;
+              })}
             </Select>
           </Flex>
         </Flex>
-        <Text mb="2px" mt="1rem">
-          Graduating Year *
-        </Text>
-        <Flex w="100%" justifyContent={"space-between"}>
-          <Select placeholder="Min Batch" w="49%">
-            <option value="option1"> 2020</option>
-            <option value="option2"> 2021</option>
-            <option value="option3">2023</option>
-          </Select>
-          <Select placeholder="Max Batch" w="49%">
-            <option value="option1"> 2024</option>
-            <option value="option2"> 2025</option>
-            <option value="option3">2026</option>
-          </Select>
-        </Flex>
-        <Text mb="2px" mt="1rem">
+
+        <TwoDropdown
+          postJob={postJob}
+          setPostJob={setPostJob}
+          state1={postJob.GYS}
+          state2={postJob.GYE}
+          Location={Graduation}
+        />
+
+        <Text mb="2px" mt="1rem" mt="1rem">
           Tags *
         </Text>
-        <Input w="100%" placeholder="+ Add job tags" size="md" />
-        <Flex justifyContent={"space-evenly"} my="1rem" flexDirection={['column','column','column','row']}>
+        <Flex alignItems={"center"}>
+          <Input
+            w="100%"
+            id={"Tags"}
+            name={"Tags"}
+            placeholder={"+ Add Job tags"}
+            size="md"
+            value={postJob.Tags}
+            onChange={onchange}
+          />
+          <Box
+            cursor="pointer"
+            onClick={() => {
+              let loc = postJob.Tags;
+              setTags((prev) => {
+                return [...prev, loc];
+              });
+            }}
+          >
+            <BiMessageSquareAdd size="1.5rem" color="#5AB5A7" />
+          </Box>
+        </Flex>
+        <Flex
+          justifyContent={"space-evenly"}
+          my="1rem"
+          flexDirection={["column", "column", "column", "row"]}
+        >
           <Button
             bgColor={"#5AB5A7"}
             color="white"
             _active={{}}
             _focus={{}}
             _hover={{}}
+            onClick={() => {
+              handleSubmit();
+            }}
           >
             Post Job
           </Button>
@@ -132,6 +239,10 @@ const PostJobPage = () => {
             _active={{}}
             _focus={{}}
             _hover={{}}
+            onClick={()=>{
+              //call api and then run cancel()
+
+            }}
           >
             Post Job and Add another job
           </Button>
@@ -141,6 +252,7 @@ const PostJobPage = () => {
             _active={{}}
             _focus={{}}
             _hover={{}}
+            onClick={Cancel}
           >
             Cancel
           </Button>
@@ -161,3 +273,23 @@ const jobObj = [
     EmploymentType: "Full Time",
   },
 ];
+const Location = {
+  heading: "Year of Experience *",
+  select1: "Minimum Experience",
+  select2: "Maximum Experience",
+  s1Id: "YOES",
+  s2Id: "YOEE",
+  option1: ["1+", "2+", "3+"],
+  option2: ["5+", "6+", "7+"],
+};
+const Graduation = {
+  heading: "Graduating Year *",
+  select1: "Start year",
+  select2: "End year",
+  s1Id: "GYS",
+  s2Id: "GYE",
+  option1: ["2016", "2017", "2018"],
+  option2: ["2020", "2021", "2022"],
+};
+const FunctionalArea = ["Frontend", "Backend", "Design"];
+const Category = ["UI", "UX", "Software Developer"];
