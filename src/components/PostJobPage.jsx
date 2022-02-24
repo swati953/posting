@@ -17,9 +17,11 @@ import { IoMdRefreshCircle } from "react-icons/io";
 import { BiMessageSquareAdd } from "react-icons/bi";
 
 import TwoDropdown from "./TwoDropdown";
+import { usePostJob } from "../query/postJob";
 const PostJobPage = () => {
   const [locations, setLocations] = useState(Array);
   const [tags, setTags] = useState(Array);
+  const { addJob } = usePostJob();
   const [postJob, setPostJob] = useState({
     Title: "",
     Locations: [],
@@ -38,6 +40,7 @@ const PostJobPage = () => {
 
   const handleSubmit = () => {
     console.log(postJob, "postJob");
+    addJob(postJob); //query call
   };
   // let location = ['g',];
   useEffect(() => {
@@ -60,7 +63,7 @@ const PostJobPage = () => {
       FunctionalArea: "",
     });
   };
-  const isError = postJob.Title === "";
+
   return (
     <Flex justifyContent={"center"}>
       <Flex direction={"column"} w={["90%", "90%", "90%", "60%"]}>
@@ -91,12 +94,11 @@ const PostJobPage = () => {
           />
         </FormControl>
 
-        <Flex alignItems={"center"}>
-          <FormControl isRequired>
-            <FormLabel htmlFor="Locations" mb="2px" mt="1rem" mt="1rem">
-              Job Location
-            </FormLabel>
-
+        <FormControl isRequired>
+          <FormLabel htmlFor="Locations" mb="2px" mt="1rem" mt="1rem">
+            Job Location
+          </FormLabel>
+          <Flex alignItems={"center"}>
             <Input
               w="100%"
               id={"Locations"}
@@ -106,19 +108,19 @@ const PostJobPage = () => {
               value={postJob.Locations}
               onChange={onchange}
             />
-          </FormControl>
-          <Box
-            cursor="pointer"
-            onClick={() => {
-              let loc = postJob.Locations;
-              setLocations((prev) => {
-                return [...prev, loc];
-              });
-            }}
-          >
-            <BiMessageSquareAdd size="1.5rem" color="#5AB5A7" />
-          </Box>
-        </Flex>
+            <Box
+              cursor="pointer"
+              onClick={() => {
+                let loc = postJob.Locations;
+                setLocations((prev) => {
+                  return [...prev, loc];
+                });
+              }}
+            >
+              <BiMessageSquareAdd size="1.5rem" color="#5AB5A7" />
+            </Box>
+          </Flex>
+        </FormControl>
         <TwoDropdown
           postJob={postJob}
           setPostJob={setPostJob}
@@ -200,13 +202,11 @@ const PostJobPage = () => {
           state2={postJob.GYE}
           Location={Graduation}
         />
-
-        <Flex alignItems={"center"}>
-          <FormControl isRequired>
-            <FormLabel htmlFor="Tags" mb="2px" mt="1rem" mt="1rem">
-              Tags
-            </FormLabel>
-
+        <FormControl isRequired>
+          <FormLabel htmlFor="Tags" mb="2px" mt="1rem" mt="1rem">
+            Tags
+          </FormLabel>
+          <Flex alignItems={"center"}>
             <Input
               w="100%"
               id={"Tags"}
@@ -216,19 +216,21 @@ const PostJobPage = () => {
               value={postJob.Tags}
               onChange={onchange}
             />
-          </FormControl>
-          <Box
-            cursor="pointer"
-            onClick={() => {
-              let loc = postJob.Tags;
-              setTags((prev) => {
-                return [...prev, loc];
-              });
-            }}
-          >
-            <BiMessageSquareAdd size="1.5rem" color="#5AB5A7" />
-          </Box>
-        </Flex>
+
+            <Box
+              top="2rem"
+              cursor="pointer"
+              onClick={() => {
+                let loc = postJob.Tags;
+                setTags((prev) => {
+                  return [...prev, loc];
+                });
+              }}
+            >
+              <BiMessageSquareAdd size="1.5rem" color="#5AB5A7" />
+            </Box>
+          </Flex>
+        </FormControl>
         <Flex
           justifyContent={"space-evenly"}
           my="1rem"
@@ -243,6 +245,7 @@ const PostJobPage = () => {
             onClick={() => {
               handleSubmit();
             }}
+            my={["1rem", "1rem", "1rem", "0"]}
           >
             Post Job
           </Button>
@@ -255,6 +258,8 @@ const PostJobPage = () => {
             _hover={{}}
             onClick={() => {
               //call api and then run cancel()
+              handleSubmit();
+              Cancel();
             }}
           >
             Post Job and Add another job
